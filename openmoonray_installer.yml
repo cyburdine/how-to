@@ -1,0 +1,86 @@
+---
+- name: Install OpenMoonRay
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install required packages using dnf
+      dnf:
+        name:
+          - tmux
+          - git
+          - gcc-toolset-9
+          - gcc-toolset-9-libatomic-devel
+          - bison
+          - flex
+          - wget
+          - python3
+          - python3-devel
+          - patch
+          - libmng
+          - libtiff-devel
+          - libjpeg-devel
+          - libuuid-devel
+          - openssl-devel
+          - curl-devel
+          - qt5-qtbase-devel
+          - qt5-qtscript-devel
+        state: present
+        update_cache: yes
+
+    - name: Create installs directory structure
+      file:
+        path: /installs/{{ item }}
+        state: directory
+      loop:
+        - bin
+        - lib
+        - include
+
+    - name: Download CMake
+      get_url:
+        url: https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-linux-x86_64.tar.gz
+        dest: /installs
+        mode: 0755
+
+    - name: Extract CMake
+      ansible.builtin.unarchive:
+        src: /installs/cmake-3.23.1-linux-x86_64.tar.gz
+        dest: /installs
+        remote_src: yes
+
+    - name: Enable GCC toolset
+      ansible.builtin.command: scl enable gcc-toolset-9 bash
+
+    - name: Add CMake to PATH
+      ansible.builtin.command: export PATH=/installs/cmake-3.23.1-linux-x86_64/bin:${PATH}
+    
+    - name: Create source directory
+      file:
+        path: /source
+        state: directory
+
+    - name: Clone OpenMoonray repository
+      ansible.builtin.git:
+        repo: https://github.com/dreamworksanimation/openmoonray.git
+        dest: /source/openmoonray
+        recursive: yes
+
+    - name: Create symbolic link to building directory
+      file:
+        src: /source/openmoonray/building
+        dest: /building
+        state: link
+        force: yes
+
+    - name: Replace line in file
+      ansible.builtin.lineinfile:
+        path: /source/openmoonray/building/CMakeLists.txt
+        search_string: 'GIT_TAG 15949af09856076b584c7b432f065386ccd267a9 # 0.7.0'
+        line: '    GIT_TAG 7c186e549fba358ac0541ed75f5a524b393954b3 # 0.11.0'
+        backup: yes
+
+    - name: Create /build directory
+      file:
+        path: /build
+        state: directory
