@@ -65,10 +65,7 @@
 
     - name: Enable GCC toolset
       ansible.builtin.command: scl enable gcc-toolset-9 bash
-
-    - name: Add CMake to PATH
-      ansible.builtin.command: export PATH=/installs/cmake-3.23.1-linux-x86_64/bin:${PATH}
-    
+   
     - name: Create source directory
       ansible.builtin.file:
         path: /source
