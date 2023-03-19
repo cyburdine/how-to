@@ -12,7 +12,7 @@
         gpgcheck: no
         enabled: yes
 
-    - name: Install CUDA toolkit DURATION: ~20 mins
+    - name: Install CUDA toolkit DURATION ~20 mins
       ansible.builtin.dnf:
         name: cuda-toolkit-11-4
         state: present
