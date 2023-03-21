@@ -4,19 +4,19 @@
   become: true
 
   tasks:
-    - name: Add Nvidia CUDA repository
-      ansible.builtin.yum_repository:
-        name: cuda
-        description: Nvidia CUDA repository
-        baseurl: https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/
-        gpgcheck: no
-        enabled: yes
+#    - name: Add Nvidia CUDA repository
+#      ansible.builtin.yum_repository:
+#        name: cuda
+#        description: Nvidia CUDA repository
+#        baseurl: https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/
+#        gpgcheck: no
+#        enabled: yes
 
-    - name: Install CUDA toolkit DURATION ~20 mins
-      ansible.builtin.dnf:
-        name: cuda-toolkit-11-4
-        state: present
-        update_cache: yes
+#    - name: Install CUDA toolkit DURATION ~20 mins
+#      ansible.builtin.dnf:
+#        name: cuda-toolkit-11-4
+#        state: present
+#        update_cache: yes
 
     - name: Install required packages using dnf
       ansible.builtin.dnf:
@@ -37,8 +37,8 @@
           - libuuid-devel
           - openssl-devel
           - curl-devel
-          - qt5-qtbase-devel
-          - qt5-qtscript-devel
+ #         - qt5-qtbase-devel
+ #         - qt5-qtscript-devel
         state: present
         update_cache: yes
 
@@ -63,8 +63,8 @@
         dest: /installs
         remote_src: yes
 
-    - name: Enable GCC toolset
-      ansible.builtin.command: scl enable gcc-toolset-9 bash
+#    - name: Enable GCC toolset
+#      ansible.builtin.command: scl enable gcc-toolset-9 bash
    
     - name: Create source directory
       ansible.builtin.file:
