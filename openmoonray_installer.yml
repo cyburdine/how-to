@@ -23,12 +23,15 @@
         name:
           - tmux
           - git
-          - gcc-toolset-11
-          - gcc-toolset-11-libatomic-devel
-          - gcc-c++-8.5.0-16.el8_7.x86_64
+          - gcc-toolset-9
+          - gcc-toolset-9-libatomic-devel
+          - gcc-toolset-9-gcc
+          - gcc-toolset-9-gcc-c++
           - bison
           - flex
           - wget
+          - python2
+          - python2-devel
           - python3
           - python3-devel
           - patch
