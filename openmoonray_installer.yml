@@ -25,6 +25,7 @@
           - git
           - gcc-toolset-9
           - gcc-toolset-9-libatomic-devel
+          - gcc-c++-8.5.0-16.el8_7.x86_64
           - bison
           - flex
           - wget
@@ -37,8 +38,8 @@
           - libuuid-devel
           - openssl-devel
           - curl-devel
- #         - qt5-qtbase-devel
- #         - qt5-qtscript-devel
+          - qt5-qtbase-devel
+          - qt5-qtscript-devel
         state: present
         update_cache: yes
 
