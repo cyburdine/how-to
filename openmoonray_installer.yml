@@ -91,6 +91,18 @@
         search_string: 'GIT_TAG 15949af09856076b584c7b432f065386ccd267a9 # 0.7.0'
         line: '    GIT_TAG 7c186e549fba358ac0541ed75f5a524b393954b3 # 0.11.0'
         backup: yes
+        
+    - name: Read CMake arguments file
+      slurp:
+        src: /building/CMakeLists.txt
+      register: cm_args
+
+    - name: Modify CMake arguments file
+      lineinfile:
+        path: /building/CMakeLists.txt
+        insertafter: '-DCMAKE_CXX_STANDARD=17'
+        line: '        -DPython_EXECUTABLE=/usr/bin/python3.6'
+      when: "'-DPython_EXECUTABLE=/usr/bin/python3.6' not in cm_args['content'] | b64decode"
 
     - name: Create /build directory
       ansible.builtin.file:
