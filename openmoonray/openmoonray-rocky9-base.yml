@@ -122,9 +122,6 @@
         - { path: /installs/bin }
         - { path: /installs/lib }
         - { path: /installs/include }
-     
-    - name: Change directory to /installs
-      command: cd /installs
 
     - name: Download CMake archive
       get_url:
