@@ -1,6 +1,8 @@
 - name: Create symbolic link and directory
   hosts: localhost
   become: true
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/installs/cmake-3.23.1-linux-x86_64/bin"
   tasks:
     - name: Create symbolic link
       file:
