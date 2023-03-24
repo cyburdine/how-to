@@ -1,0 +1,15 @@
+- name: Create symbolic link and directory
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Create symbolic link
+      file:
+        src: /source/openmoonray/building
+        dest: /building
+        state: link
+        force: yes
+    - name: Create directory
+      file:
+        path: /build
+        state: directory
+        mode: '0755'
