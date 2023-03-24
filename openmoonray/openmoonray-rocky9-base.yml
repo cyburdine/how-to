@@ -2,6 +2,8 @@
 - name: Base build to prep OS for dependancy builds
   hosts: localhost
   become: true
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/installs/cmake-3.23.1-linux-x86_64/bin"
   tasks:
     - name: Install EPEL repository
       dnf:
