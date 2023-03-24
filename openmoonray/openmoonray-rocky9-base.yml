@@ -11,9 +11,7 @@
         state: present
 
     - name: Install CRB devel repository
-      dnf:
-        name: crb devel
-        state: present
+      command: dnf config-manager --enable crb devel
 
     - name: Install required packages
       dnf:
