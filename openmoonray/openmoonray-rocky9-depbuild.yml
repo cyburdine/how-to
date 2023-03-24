@@ -58,13 +58,13 @@
 
     - name: Extract libmicrohttpd
       unarchive:
-        src: /build/libmicrohttpd-0.9.37.tar.gz
+        src: /build/libmicrohttpd/libmicrohttpd-0.9.37.tar.gz
         dest: /build/libmicrohttpd
         remote_src: true
         extra_opts: [--strip-components=1]
 
     - name: Configure libmicrohttpd
-      command: CC=clang CXX=clang++ ./configure --prefix=/installs
+      shell: CC=clang CXX=clang++ ./configure --prefix=/installs
       args:
         chdir: /build/libmicrohttpd
 
