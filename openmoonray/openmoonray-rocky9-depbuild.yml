@@ -205,5 +205,46 @@
         chdir: /build/embree/build
         target: install
 
+## Build OpenColorIO
+    - name: Create OpenColorIO build directory
+      file:
+        path: /build/OpenColorIO
+        state: directory
+        mode: '0755'
 
+    - name: Clone OpenColorIO repository
+      git:
+        repo: https://github.com/AcademySoftwareFoundation/OpenColorIO.git
+        dest: /build/OpenColorIO
+        version: "66b7b7d58f2ca587ae45fc71aa8bb2157145ac35"
+
+    - name: Create OpenColorIO build directory
+      file:
+        path: /build/OpenColorIO/build
+        state: directory
+        mode: '0755'
+        
+    - name: Apply patches to FileRules.cpp
+      lineinfile:
+        path: /build/OpenColorIO/src/OpenColorIO/FileRules.cpp
+        insertafter: "#include <sstream>"
+        line: "#include <cstring>"
+        state: present
+    
+    - name: Replace strlen with std::strlen in FileRules.cpp
+      lineinfile:
+        path: /build/OpenColorIO/src/OpenColorIO/FileRules.cpp
+        regexp: 'strlen(globPattern)'
+        line: 'std::strlen(globPattern)'
+        state: present
+    
+    - name: Configure OpenColorIO
+      shell:CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX:PATH=/installs -DBUILD_SHARED_LIBS=ON -DOCIO_BUILD_STATIC=OFF -DCMAKE_CXX_STANDARD=17 -DGLEW_DIR=/usr/lib64 -DOCIO_BUILD_GPU_TESTS=0 -DOCIO_BUILD_TESTS=0 ..
+      args:
+        chdir: /build/OpenColorIO/build
+
+    - name: Compile OpenColorIO
+      make:
+        chdir: /build/OpenColorIO/build
+        target: install
 
