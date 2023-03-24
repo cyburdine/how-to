@@ -7,12 +7,10 @@
       dnf:
         name: epel-release
         state: present
-      become: true
 
-    - name: Enable CRB devel repository
+    - name: Install CRB devel repository
       dnf:
         name: crb devel
-        enablerepo: crb devel
         state: present
 
     - name: Install required packages
@@ -129,17 +127,14 @@
         - { path: /installs/include }
      
     - name: Change directory to /installs
-      become: true
       command: cd /installs
 
     - name: Download CMake archive
-      become: true
       get_url:
         url: https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-linux-x86_64.tar.gz
         dest: /installs/cmake-3.23.1-linux-x86_64.tar.gz
 
     - name: Extract CMake archive
-      become: true
       unarchive:
         src: /installs/cmake-3.23.1-linux-x86_64.tar.gz
         dest: /installs/
@@ -151,12 +146,7 @@
         state: directory
         mode: 0755
 
-    - name: Change directory to /source
-      become: true
-      shell: cd /source
-
     - name: Clone openmoonray repository
-      become: true
       git:
         repo: https://github.com/dreamworksanimation/openmoonray.git
         dest: /source/openmoonray
