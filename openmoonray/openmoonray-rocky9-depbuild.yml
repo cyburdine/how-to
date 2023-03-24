@@ -118,3 +118,29 @@
       command: make install-include prefix=/installs
       args:
         chdir: /build/random123
+
+## Build ISPC
+    - name: Create ISPC build directory
+      file:
+        path: /build/ispc
+        state: directory
+        mode: '0755'
+    
+    - name: Download ispc
+      get_url:
+        url: https://github.com/ispc/ispc/releases/download/v1.14.1/ispc-v1.14.1-linux.tar.gz
+        dest: /build/ispc/ispc-v1.14.1-linux.tar.gz
+
+    - name: Extract ispc
+      unarchive:
+        src: /build/ispc/ispc-v1.14.1-linux.tar.gz
+        dest: /build/ispc
+        remote_src: true
+        creates: /build/ispc/ispc-v1.14.1-linux
+
+    - name: Install ispc
+      copy:
+        src: /build/ispc/ispc-v1.14.1-linux/bin/ispc
+        dest: /installs/bin/ispc
+        mode: '0755'
+ 
