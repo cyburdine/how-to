@@ -28,16 +28,41 @@
         path: /build/jsoncpp/build
         state: directory
         mode: '0755'
-        
-    - name: Change directory to /build/jsoncpp/build
-      command: cd /build/jsoncpp/build
-        
-    - name: Configure and build jsoncpp
-      command: CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX:PATH=/installs -DBUILD_SHARED_LIBS=1 -DJSONCPP_LIB_BUILD_SHARED=1 -DPYTHON_EXECUTABLE=/usr/bin/python3 ..
-     
-     
-     - name: Compile jsoncpp
+
+    - name: Create JsonCpp build directory
+      file:
+        path: /build/jsoncpp/build
+        state: directory
+        mode: '0755'
+
+    - name: Configure jsoncpp
+      shell: CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX:PATH=/installs -DBUILD_SHARED_LIBS=1 -DJSONCPP_LIB_BUILD_SHARED=1 -DPYTHON_EXECUTABLE=/usr/bin/python3 ..
+      args:
+        chdir: /build/jsoncpp/build
+
+    - name: Compile jsoncpp
       make:
         chdir: /build/jsoncpp/build
         target: install
-      changed_when: false
+ 
+    - name: Download libmicrohttpd
+      get_url:
+        url: https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.37.tar.gz
+        dest: /build/libmicrohttpd-0.9.37.tar.gz
+
+    - name: Extract libmicrohttpd
+      unarchive:
+        src: /build/libmicrohttpd-0.9.37.tar.gz
+        dest: /build
+        remote_src: true
+        extra_opts: [--strip-components=1]
+
+    - name: Configure libmicrohttpd
+      command: CC=clang CXX=clang++ ./configure --prefix=/installs
+      args:
+        chdir: /build/libmicrohttpd-0.9.37
+
+    - name: Compile libmicrohttpd
+      make:
+        chdir: /build/libmicrohttpd-0.9.37
+        target: install
