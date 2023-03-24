@@ -8,8 +8,26 @@
         dest: /building
         state: link
         force: yes
+        
     - name: Create directory
       file:
         path: /build
         state: directory
         mode: '0755'
+        
+    - name: Clone jsoncpp repository
+      git:
+        repo: https://github.com/open-source-parsers/jsoncpp.git
+        dest: /build/jsoncpp
+        version: 0.10.7
+        
+    - name: Configure and build jsoncpp
+      command:
+        chdir: /build/jsoncpp/build
+        cmd: CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX:PATH=/installs -DBUILD_SHARED_LIBS=1 -DJSONCPP_LIB_BUILD_SHARED=1 -DPYTHON_EXECUTABLE=/usr/bin/python3 ..
+      changed_when: false
+    - name: Compile jsoncpp
+      make:
+        chdir: /build/jsoncpp/build
+        target: install
+      changed_when: false
