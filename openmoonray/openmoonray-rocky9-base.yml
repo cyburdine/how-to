@@ -1,6 +1,6 @@
 ---
 - name: Base build to prep OS for dependancy builds
-- hosts: localhost
+  hosts: localhost
   become: true
   tasks:
     - name: Install EPEL repository
