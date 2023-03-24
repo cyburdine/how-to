@@ -8,11 +8,11 @@
         state: present
       become: true
 
-    - name: Enable crb-devel repository
+    - name: Enable CRB devel repository
       dnf:
-        name: "https://cdn.redhat.com/content/dist/rhel8/$releasever/x86_64/crb-devel/crb-devel.repo"
+        name: crb
+        enablerepo: crb-devel
         state: present
-      become: true
 
     - name: Install required packages
       dnf:
@@ -116,18 +116,18 @@
         state: present
       become: true
 
-  - name: Create /installs directory and subdirectories
-    file:
-      path: "{{ item.path }}"
-      state: directory
-      mode: '0755'
-    loop:
-      - { path: /installs }
-      - { path: /installs/bin }
-      - { path: /installs/lib }
-      - { path: /installs/include }
+    - name: Create /installs directory and subdirectories
+      file:
+        path: "{{ item.path }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - { path: /installs }
+        - { path: /installs/bin }
+        - { path: /installs/lib }
+        - { path: /installs/include }
      
-     - name: Change directory to /installs
+    - name: Change directory to /installs
       become: true
       command: cd /installs
 
