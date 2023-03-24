@@ -91,7 +91,7 @@
       become: true
 
     - name: Add Nvidia CUDA repository
-      dnf_repository:
+      yum_repository:
         name: cuda-rhel9
         description: Nvidia CUDA repository for RHEL 9
         baseurl: https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/
