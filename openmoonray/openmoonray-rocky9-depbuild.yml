@@ -144,3 +144,66 @@
         dest: /installs/bin/ispc
         mode: '0755'
  
+## Build OpenEXR
+    - name: Create OpenEXR build directory
+      file:
+        path: /build/OpenEXR
+        state: directory
+        mode: '0755'
+
+    - name: Clone OpenEXR repository
+      git:
+        repo: https://github.com/AcademySoftwareFoundation/openexr.git
+        dest: /build/OpenEXR
+        version: "8bc3741131db146ad08a5b83af9e6e48f0e94a03"
+
+    - name: Create OpenEXR build directory
+      file:
+        path: /build/OpenEXR/build
+        state: directory
+        mode: '0755'
+    
+    - name: Configure OpenEXR
+      shell: CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX:PATH=/installs -DBUILD_SHARED_LIBS=OFF ..
+      args:
+        chdir: /build/OpenEXR/build
+
+    - name: Compile OpenEXR
+      make:
+        chdir: /build/OpenEXR/build
+        target: install
+
+## Build embree
+    - name: Create OpenEXR build directory
+      file:
+        path: /build/embree
+        state: directory
+        mode: '0755'
+
+    - name: Clone embree repository
+      git:
+        repo: https://github.com/embree/embree.git
+        dest: /build/embree
+        version: "69bd4c272f1ed608494f233ecfff3feec516880b"
+
+    - name: Apply embree patch
+      shell: patch -p1 < /building/embree_missing_type.patch
+
+    - name: Create embree build directory
+      file:
+        path: /build/embree/build
+        state: directory
+        mode: '0755'
+    
+    - name: Configure embree
+      shell: CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX:PATH=/installs -DEMBREE_ISPC_EXECUTABLE=/installs/bin/ispc -DEMBREE_TBB_ROOT=/usr -DEMBREE_IGNORE_INVALID_RAYS=ON -DEMBREE_RAY_MASK=ON -DEMBREE_MAX_ISA=AVX -DEMBREE_TUTORIALS=OFF -DBUILD_SHARED_LIBS=ON ..
+      args:
+        chdir: /build/embree/build
+
+    - name: Compile embree
+      make:
+        chdir: /build/embree/build
+        target: install
+
+
+
