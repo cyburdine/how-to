@@ -1,4 +1,4 @@
-- name: Create symbolic link and directory
+- name: Build depenancies
   hosts: localhost
   become: true
   environment:
