@@ -9,10 +9,8 @@
       become: true
 
     - name: Enable CRB devel repository
-      dnf:
-        name: crb
-        enablerepo: crb-devel
-        state: present
+      command:
+        cmd: dnf config-manager --enable crb-devel
 
     - name: Install required packages
       dnf:
