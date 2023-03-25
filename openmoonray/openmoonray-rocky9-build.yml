@@ -78,11 +78,11 @@
     - name: Update source files
       shell:
         cmd: |
-          sed -i '/BsdfHairLobes.h/a #include <array>' moonray/moonray/lib/rendering/shading/bsdf/hair/BsdfHairOneSampler.h &&
-          sed -i '/Color.h/a #include <array>' moonray/moonshine/lib/common/noise/Worley.h &&
-          sed -i '/#include <functional>/a #include <string>' moonray/moonray_arras/mcrt_dataio/lib/engine/merger/MsgSendHandler.h &&
-          sed -i '/#include <vector>/a #include <array>' moonray/moonray/lib/rendering/rt/gpu/GPUPrimitive.h &&
-          sed -i '/#include <float.h>/a #include <limits>' moonray/moonray/lib/rendering/rndr/RenderTimingRecord.h &&
-          sed -i '/#pragma once/a #include <shared_mutex>' moonray/scene_rdl2/include/scene_rdl2/render/util/ReaderWriterMutex.h &&
-          sed -i '/#include <shared_mutex>/a #include <mutex>' moonray/scene_rdl2/include/scene_rdl2/render/util/ReaderWriterMutex.h &&
-          sed -i '/#pragma once/a #include <functional>' moonray/moonray_arras/mcrt_computation/lib/engine/mcrt/McrtUpdate.h
+          sed -i '/BsdfHairLobes.h/a #include <array>' /openmoonray/moonray/moonray/lib/rendering/shading/bsdf/hair/BsdfHairOneSampler.h &&
+          sed -i '/Color.h/a #include <array>' /openmoonray/moonray/moonshine/lib/common/noise/Worley.h &&
+          sed -i '/#include <functional>/a #include <string>' /openmoonray/moonray/moonray_arras/mcrt_dataio/lib/engine/merger/MsgSendHandler.h &&
+          sed -i '/#include <vector>/a #include <array>' /openmoonray/moonray/moonray/lib/rendering/rt/gpu/GPUPrimitive.h &&
+          sed -i '/#include <float.h>/a #include <limits>' /openmoonray/moonray/moonray/lib/rendering/rndr/RenderTimingRecord.h &&
+          sed -i '/#pragma once/a #include <shared_mutex>' /openmoonray/moonray/scene_rdl2/include/scene_rdl2/render/util/ReaderWriterMutex.h &&
+          sed -i '/#include <shared_mutex>/a #include <mutex>' /openmoonray/moonray/scene_rdl2/include/scene_rdl2/render/util/ReaderWriterMutex.h &&
+          sed -i '/#pragma once/a #include <functional>' /openmoonray/moonray/moonray_arras/mcrt_computation/lib/engine/mcrt/McrtUpdate.h
