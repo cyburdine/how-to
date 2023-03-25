@@ -66,4 +66,11 @@
         - "libcgroup-0.41-21.el7.x86_64.rpm"
         - "libcgroup-devel-0.41-21.el7.x86_64.rpm"
       
-        
+    - name: Create symbolic links
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        state: link
+      with_items:
+        - { src: "/usr/bin/python3", dest: "/usr/bin/python" }
+        - { src: "/usr/lib64/libatomic.so.1", dest: "/usr/lib64/libatomic.so" }
