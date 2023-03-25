@@ -1,6 +1,6 @@
-How to install MoonRay on Rocky Linux
-
-Rocky 9.1 system minimal install  
+## How to install MoonRay on Rocky Linux  
+  
+### Start with a fresh Rocky 9.1 minimal install system   
 ```
 # dnf install -y epel-release
 ```  
