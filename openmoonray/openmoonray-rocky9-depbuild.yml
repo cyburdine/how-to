@@ -22,7 +22,8 @@
         repo: https://github.com/open-source-parsers/jsoncpp.git
         dest: /build/jsoncpp
         version: 0.10.7
-        
+        force: yes
+   
     - name: Create directory
       file:
         path: /build/jsoncpp/build
@@ -84,6 +85,7 @@
       git:
         repo: https://github.com/PixarAnimationStudios/OpenSubdiv
         dest: /build/OpenSubdiv
+        force: yes
         
     - name: Create OpenSubdiv build directory
       file:
@@ -113,7 +115,8 @@
         repo: https://github.com/DEShawResearch/random123.git
         dest: /build/random123
         version: "726a093cd9a73f3ec3c8d7a70ff10ed8efec8d13"
-
+        force: yes
+        
     - name: Install Random123 headers
       command: make install-include prefix=/installs
       args:
@@ -156,7 +159,8 @@
         repo: https://github.com/AcademySoftwareFoundation/openexr.git
         dest: /build/OpenEXR
         version: "8bc3741131db146ad08a5b83af9e6e48f0e94a03"
-
+        force: yes
+        
     - name: Create OpenEXR build directory
       file:
         path: /build/OpenEXR/build
@@ -185,9 +189,10 @@
         repo: https://github.com/embree/embree.git
         dest: /build/embree
         version: "69bd4c272f1ed608494f233ecfff3feec516880b"
-
-    - name: Apply embree patch
-      shell: patch -p1 < /building/embree_missing_type.patch
+        force: yes
+        
+#    - name: Apply embree patch
+#      shell: patch -p1 < /building/embree_missing_type.patch
 
     - name: Create embree build directory
       file:
@@ -217,7 +222,8 @@
         repo: https://github.com/AcademySoftwareFoundation/OpenColorIO.git
         dest: /build/OpenColorIO
         version: "66b7b7d58f2ca587ae45fc71aa8bb2157145ac35"
-
+        force: yes
+        
     - name: Create OpenColorIO build directory
       file:
         path: /build/OpenColorIO/build
@@ -260,7 +266,8 @@
         repo: https://github.com/OpenImageIO/oiio
         dest: /build/OpenImageIO
         version: "55ebad1f77f06527b23b4fe9d0da81fe8d0ecdc8"
-
+        force: yes
+        
     - name: Create OpenImageIO build directory
       file:
         path: /build/OpenImageIO/build
@@ -289,7 +296,8 @@
         repo: https://github.com/PixarAnimationStudios/USD
         dest: /build/USD
         version: "0c7b9a95f155c221ff7df9270a39a52e3b23af8b"
-
+        force: yes
+        
     - name: Create USD build directory
       file:
         path: /build/USD/build
