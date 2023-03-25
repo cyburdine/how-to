@@ -75,48 +75,14 @@
         - { src: "/usr/bin/python3", dest: "/usr/bin/python" }
         - { src: "/usr/lib64/libatomic.so.1", dest: "/usr/lib64/libatomic.so" }
         
-    - name: Add #include <array> to BsdfHairOneSampler.h
-      lineinfile:
-        path: "moonray/moonray/lib/rendering/shading/bsdf/hair/BsdfHairOneSampler.h"
-        insertafter: "BsdfHairLobes.h"
-        line: "#include <array>"
-
-    - name: Add #include <array> to Worley.h
-      lineinfile:
-        path: "moonray/moonshine/lib/common/noise/Worley.h"
-        insertafter: "Color.h"
-        line: "#include <array>"
-
-    - name: Add #include <string> to MsgSendHandler.h
-      lineinfile:
-        path: "moonray/moonray_arras/mcrt_dataio/lib/engine/merger/MsgSendHandler.h"
-        insertafter: "#include <functional>"
-        line: "#include <string>"
-
-    - name: Add #include <array> to GPUPrimitive.h
-      lineinfile:
-        path: "moonray/moonray/lib/rendering/rt/gpu/GPUPrimitive.h"
-        insertafter: "#include <vector>"
-        line: "#include <array>"
-
-    - name: Replace #include <float.h> with #include <limits> in RenderTimingRecord.h
-      lineinfile:
-        path: "moonray/moonray/lib/rendering/rndr/RenderTimingRecord.h"
-        regexp: "#include <float\.h>"
-        line: "#include <limits>"
-
-    - name: Add #include <shared_mutex> and replace it with #include <mutex> in ReaderWriterMutex.h
-      lineinfile:
-        path: "moonray/scene_rdl2/include/scene_rdl2/render/util/ReaderWriterMutex.h"
-        insertafter: "#pragma once"
-        line: "#include <shared_mutex>"
-      lineinfile:
-        path: "moonray/scene_rdl2/include/scene_rdl2/render/util/ReaderWriterMutex.h"
-        regexp: "#include <shared_mutex>"
-        line: "#include <mutex>"
-
-    - name: Add #include <functional> to McrtUpdate.h
-      lineinfile:
-        path: "moonray/moonray_arras/mcrt_computation/lib/engine/mcrt/McrtUpdate.h"
-        insertafter: "#pragma once"
-        line: "#include <functional>"
+    - name: Update source files
+      shell:
+        cmd: |
+          sed -i '/BsdfHairLobes.h/a #include <array>' moonray/moonray/lib/rendering/shading/bsdf/hair/BsdfHairOneSampler.h &&
+          sed -i '/Color.h/a #include <array>' moonray/moonshine/lib/common/noise/Worley.h &&
+          sed -i '/#include <functional>/a #include <string>' moonray/moonray_arras/mcrt_dataio/lib/engine/merger/MsgSendHandler.h &&
+          sed -i '/#include <vector>/a #include <array>' moonray/moonray/lib/rendering/rt/gpu/GPUPrimitive.h &&
+          sed -i '/#include <float.h>/a #include <limits>' moonray/moonray/lib/rendering/rndr/RenderTimingRecord.h &&
+          sed -i '/#pragma once/a #include <shared_mutex>' moonray/scene_rdl2/include/scene_rdl2/render/util/ReaderWriterMutex.h &&
+          sed -i '/#include <shared_mutex>/a #include <mutex>' moonray/scene_rdl2/include/scene_rdl2/render/util/ReaderWriterMutex.h &&
+          sed -i '/#pragma once/a #include <functional>' moonray/moonray_arras/mcrt_computation/lib/engine/mcrt/McrtUpdate.h
