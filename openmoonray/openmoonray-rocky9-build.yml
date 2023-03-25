@@ -35,17 +35,17 @@
         - { path: "/openmoonray/moonray/scene_rdl2/mod/python/py_scene_rdl2/CMakeLists.txt", regexp: "Boost::python", line: "Boost::python39" }
     
     - name: Update _GLIBCXX_USE_CXX11_ABI
-      shell: ag -l _GLIBCXX_USE_CXX11 {{ file_path }} | xargs -n1 sed -i 's/_GLIBCXX_USE_CXX11_ABI=0/_GLIBCXX_USE_CXX11_ABI=1/' {{ file_path }}
+      shell: ag -l _GLIBCXX_USE_CXX11 . | xargs -n1 sed -i 's/_GLIBCXX_USE_CXX11_ABI=0/_GLIBCXX_USE_CXX11_ABI=1/' $1
       args: 
         chdir: /openmoonray
         
     - name: Remove --werror
-      shell: ag -l "\-\-werror" {{ file_path }} | grep .cmake | xargs -n1 sed -i 's/--werror/#--werror/' {{ file_path }}
+      shell: ag -l "\-\-werror" . | grep .cmake | xargs -n1 sed -i 's/--werror/#--werror/' $1
       args: 
         chdir: /openmoonray
       
     - name: Remove env.DWAForceWarningAsError
-      shell: ag -l env.DWAForceWarningAsError {{ file_path }} | xargs -n1 sed -i 's/env.DWAForceWarningAsError/#env.DWAForceWarningAsError/' {{ file_path }}
+      shell: ag -l env.DWAForceWarningAsError | xargs -n1 sed -i 's/env.DWAForceWarningAsError/#env.DWAForceWarningAsError/' $1
       args: 
         chdir: /openmoonray  
         
