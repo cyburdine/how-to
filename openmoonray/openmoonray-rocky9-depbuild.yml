@@ -248,3 +248,31 @@
         chdir: /build/OpenColorIO/build
         target: install
 
+## Build OpenImageIO
+    - name: Create OpenImageIO build directory
+      file:
+        path: /build/OpenImageIO
+        state: directory
+        mode: '0755'
+
+    - name: Clone OpenImageIO repository
+      git:
+        repo: https://github.com/OpenImageIO/oiio
+        dest: /build/OpenImageIO
+        version: "55ebad1f77f06527b23b4fe9d0da81fe8d0ecdc8"
+
+    - name: Create OpenImageIO build directory
+      file:
+        path: /build/OpenImageIO/build
+        state: directory
+        mode: '0755'
+    
+    - name: Configure OpenImageIO
+      shell: CC=clang CXX=clang++ cmake -DCMAKE_CXX_STANDARD=14 -DOpenEXR_ROOT=/installs -DCMAKE_INSTALL_PREFIX:PATH=/installs -DUSE_QT=0 -DUSE_PYTHON=0 ..
+      args:
+        chdir: /build/OpenImageIO/build
+
+    - name: Compile OpenImageIO
+      make:
+        chdir: /build/OpenImageIO/build
+        target: install
