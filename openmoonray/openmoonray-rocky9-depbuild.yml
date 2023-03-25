@@ -1,4 +1,4 @@
-- name: Build depenancies
+- name: Step2 - Build Dependancies for Open MoonRay
   hosts: localhost
   become: true
   environment:
