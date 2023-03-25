@@ -34,20 +34,35 @@
         - { path: "/openmoonray/moonray/hydra/hdMoonray/cmd/hd_cmd/hd_usd2rdl/CMakeLists.txt", regexp: "Boost::python", line: "Boost::python39" }
         - { path: "/openmoonray/moonray/scene_rdl2/mod/python/py_scene_rdl2/CMakeLists.txt", regexp: "Boost::python", line: "Boost::python39" }
     
-    - name: Update _GLIBCXX_USE_CXX11_ABI
-      shell: ag -l _GLIBCXX_USE_CXX11 . | xargs -n1 sed -i 's/_GLIBCXX_USE_CXX11_ABI=0/_GLIBCXX_USE_CXX11_ABI=1/' $1
-      args: 
-        chdir: /openmoonray
+ #   - name: Update _GLIBCXX_USE_CXX11_ABI
+ #     shell: ag -l _GLIBCXX_USE_CXX11 . | xargs -n1 sed -i 's/_GLIBCXX_USE_CXX11_ABI=0/_GLIBCXX_USE_CXX11_ABI=1/' $1
+ #     args: 
+ #       chdir: /openmoonray
         
-    - name: Remove --werror
-      shell: ag -l "\-\-werror" . | grep .cmake | xargs -n1 sed -i 's/--werror/#--werror/' $1
-      args: 
-        chdir: /openmoonray
+#    - name: Remove --werror
+#      shell: ag -l "\-\-werror" . | grep .cmake | xargs -n1 sed -i 's/--werror/#--werror/' $1
+#      args: 
+#        chdir: /openmoonray
       
     - name: Remove env.DWAForceWarningAsError
       shell: ag -l env.DWAForceWarningAsError | xargs -n1 sed -i 's/env.DWAForceWarningAsError/#env.DWAForceWarningAsError/' $1
       args: 
         chdir: /openmoonray  
-        
+
+    - name: Download libcgroup packages
+      get_url:
+        url: "http://ftp.riken.jp/Linux/centos/7/os/x86_64/Packages/{{ item }}"
+        dest: "/installs/{{ item }}"
+      with_items:
+        - "libcgroup-0.41-21.el7.x86_64.rpm"
+        - "libcgroup-devel-0.41-21.el7.x86_64.rpm"
+
+    - name: Install libcgroup packages
+      yum:
+        name: "/installs/{{ item }}"
+        state: present
+      with_items:
+        - "libcgroup-0.41-21.el7.x86_64.rpm"
+        - "libcgroup-devel-0.41-21.el7.x86_64.rpm"
         
         
