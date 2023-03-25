@@ -145,3 +145,4 @@
         repo: https://github.com/dreamworksanimation/openmoonray.git
         dest: /source/openmoonray
         recursive: true
+        force: yes
