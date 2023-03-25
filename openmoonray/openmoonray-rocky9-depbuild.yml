@@ -174,7 +174,7 @@
         target: install
 
 ## Build embree
-    - name: Create OpenEXR build directory
+    - name: Create embree build directory
       file:
         path: /build/embree
         state: directory
@@ -275,4 +275,33 @@
     - name: Compile OpenImageIO
       make:
         chdir: /build/OpenImageIO/build
+        target: install
+
+## Build USD
+    - name: Create USD build directory
+      file:
+        path: /build/USD
+        state: directory
+        mode: '0755'
+
+    - name: Clone USD repository
+      git:
+        repo: https://github.com/PixarAnimationStudios/USD
+        dest: /build/USD
+        version: "0c7b9a95f155c221ff7df9270a39a52e3b23af8b"
+
+    - name: Create USD build directory
+      file:
+        path: /build/USD/build
+        state: directory
+        mode: '0755'
+    
+    - name: Configure USD
+      shell: CC=clang CXX=clang++ CMAKE_PREFIX_PATH=/installs:/usr/lib64/boost cmake -DPXR_ENABLE_PYTHON_SUPPORT=ON -DPXR_USE_PYTHON_3=ON -DTBB_USE_DEBUG_BUILD=OFF -DPXR_BUILD_TESTS=OFF -DPXR_BUILD_EXAMPLES=OFF -DPXR_BUILD_TUTORIALS=OFF -DPXR_BUILD_USD_TOOLS=OFF -DPXR_ENABLE_PTEX_SUPPORT=OFF -DPXR_ENABLE_OPENVDB_SUPPORT=OFF -DPXR_BUILD_USDVIEW=OFF -DBoost_NO_BOOST_CMAKE=ON -DBoost_NO_SYSTEM_PATHS=ON -DBoost_LIBRARY_DIR=/usr/lib64 -DBoost_INCLUDE_DIR=/usr/include -DPYTHON_LIBRARIES=/usr/lib64 -DPYTHON_INCLUDE_DIRS=/usr/include -DTBB_ROOT_DIR=/usr -DTBB_LIBRARIES=/usr/lib64 -DTBB_INCLUDE_DIRS=/usr/include ..
+      args:
+        chdir: /build/USD/build
+
+    - name: Compile USD
+      make:
+        chdir: /build/USD/build
         target: install
