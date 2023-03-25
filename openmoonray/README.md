@@ -17,7 +17,7 @@ wget https://raw.githubusercontent.com/cyburdine/how-to/main/openmoonray/openmoo
 wget https://raw.githubusercontent.com/cyburdine/how-to/main/openmoonray/openmoonray-rocky9-build.yml
 ```  
 ```
-ansible-playbook openmoonray-rocky9-build.yml
+ansible-playbook openmoonray-rocky9-base.yml
 ```  
 ```
 ansible-playbook openmoonray-rocky9-depbuild.yml
