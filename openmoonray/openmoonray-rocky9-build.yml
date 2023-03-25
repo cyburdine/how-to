@@ -1,0 +1,58 @@
+---
+- name: Step3: Build Open MoonRay
+  hosts: your_host
+  become: yes
+  tasks:
+    - name: Create symbolic link
+      file:
+        src: /source/openmoonray
+        dest: /openmoonray
+        state: link
+    
+    - name: Create directory
+      file:
+        path: /installs/openmoonray
+        state: directory
+        mode: 0755
+    
+    - name: Remove contents of directory
+      file:
+        path: /build/*
+        state: absent
+    
+    - name: Change directory
+      become_user: some_user
+      become_method: su
+      shell: cd /openmoonray
+      
+    - name: Update CMakeLists
+      lineinfile:
+        path: "{{ item.path }}"
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - { path: "moonray/hydra/CMakeLists.txt", regexp: "^python", line: "python39" }
+        - { path: "moonray/hydra/hdMoonray/CMakeLists.txt", regexp: "^python", line: "python39" }
+        - { path: "moonray/moonshine_usd/CMakeLists.txt", regexp: "^python", line: "python39" }
+        - { path: "moonray/scene_rdl2/mod/python/py_scene_rdl2/CMakeLists.txt", regexp: "^python", line: "python39", insertafter: "10" }
+        - { path: "moonray/hydra/hdMoonray/cmd/hd_cmd/hd_render/CMakeLists.txt", regexp: "Boost::python", line: "Boost::python39" }
+        - { path: "moonray/hydra/hdMoonray/cmd/hd_cmd/hd_usd2rdl/CMakeLists.txt", regexp: "Boost::python", line: "Boost::python39" }
+        - { path: "moonray/scene_rdl2/mod/python/py_scene_rdl2/CMakeLists.txt", regexp: "Boost::python", line: "Boost::python39" }
+    
+    - name: Update _GLIBCXX_USE_CXX11_ABI
+      shell: ag -l _GLIBCXX_USE_CXX11 {{ file_path }} | xargs -n1 sed -i 's/_GLIBCXX_USE_CXX11_ABI=0/_GLIBCXX_USE_CXX11_ABI=1/' {{ file_path }}
+      args: 
+        chdir: /openmoonray
+        
+    - name: Remove --werror
+      shell: ag -l "\-\-werror" {{ file_path }} | grep .cmake | xargs -n1 sed -i 's/--werror/#--werror/' {{ file_path }}
+      args: 
+        chdir: /openmoonray
+      
+    - name: Remove env.DWAForceWarningAsError
+      shell: ag -l env.DWAForceWarningAsError {{ file_path }} | xargs -n1 sed -i 's/env.DWAForceWarningAsError/#env.DWAForceWarningAsError/' {{ file_path }}
+      args: 
+        chdir: /openmoonray  
+        
+        
+        
