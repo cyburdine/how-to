@@ -44,10 +44,10 @@
 #      args: 
 #        chdir: /openmoonray
       
-    - name: Remove env.DWAForceWarningAsError
-      shell: ag -l env.DWAForceWarningAsError | xargs -n1 sed -i 's/env.DWAForceWarningAsError/#env.DWAForceWarningAsError/' $1
-      args: 
-        chdir: /openmoonray  
+#    - name: Remove env.DWAForceWarningAsError
+#      shell: ag -l env.DWAForceWarningAsError | xargs -n1 sed -i 's/env.DWAForceWarningAsError/#env.DWAForceWarningAsError/' $1
+#      args: 
+#        chdir: /openmoonray  
 
     - name: Download libcgroup packages
       get_url:
