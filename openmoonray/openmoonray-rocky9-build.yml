@@ -1,5 +1,5 @@
 ---
-- name: Step3: Build Open MoonRay
+- name: Step3 - Build Open MoonRay
   hosts: your_host
   become: yes
   tasks:
