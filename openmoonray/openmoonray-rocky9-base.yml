@@ -1,5 +1,5 @@
 ---
-- name: Base build to prep OS for dependancy builds
+-- name: Step1 - Setup system packages and prep to build dependancies for Open MoonRay 
   hosts: localhost
   become: true
   environment:
