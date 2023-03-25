@@ -190,9 +190,17 @@
         dest: /build/embree
         version: "69bd4c272f1ed608494f233ecfff3feec516880b"
         force: yes
-        
-#    - name: Apply embree patch
-#      shell: patch -p1 < /building/embree_missing_type.patch
+
+    - name: Remove CRLF characters from file
+      lineinfile:
+        path: /building/embree_missing_type.patch
+        regexp: '\r$'
+        state: absent
+
+    - name: Apply embree patch
+      shell: patch -p1 < /building/embree_missing_type.patch
+      args: 
+        chdir: /build/embree
 
     - name: Create embree build directory
       file:
@@ -309,3 +317,35 @@
       make:
         chdir: /build/USD/build
         target: install
+
+## Install Nvidia Optix SDK
+#    - name: Create directory
+#      file:
+#        path: /installs/opitx
+#        state: directory
+#        mode: 0755
+#    
+#    - name: Run shell script
+#      shell: /installs/NVIDIA-OptiX-SDK-7.3.0-linux64-x86_64.sh --prefix=/installs/opitx --skip-license
+#      args:
+#        chdir: /installs
+
+## Build QT
+    - name: Create directory
+      file:
+        path: /installs/Qt-5.15
+        state: directory
+        mode: 0755
+    
+    - name: Clone Qt repository
+      git:
+        repo: git://code.qt.io/qt/qt5.git
+        dest: /installs/Qt-5.15
+        version: v5.15.6-lts-lgpl # or v5.15.8-lts-lgpl
+        force: yes
+    
+    - name: Initialize Qt repository
+      shell: ./init-repository --module-subset=qtbase,qtscript
+      args:
+        chdir: /installs/Qt-5.15
+      
