@@ -58,7 +58,7 @@
         - "libcgroup-devel-0.41-21.el7.x86_64.rpm"
 
     - name: Install libcgroup packages
-      yum:
+      dnf:
         name: "/installs/{{ item }}"
         state: present
       with_items:
