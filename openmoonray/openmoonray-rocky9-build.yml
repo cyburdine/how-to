@@ -90,7 +90,7 @@
           sed -i '/#pragma once/a #include <functional>' /openmoonray/moonray/moonray_arras/mcrt_computation/lib/engine/mcrt/McrtUpdate.h
     
     - name: Configure Open MoonRay
-      shell: CC=clang CXX=clang++ CMAKE_PREFIX_DIR=/installs cmake -DCMAKE_INSTALL_PREFIX:PATH=/installs/openmoonray -DOpenEXR_DIR=/installs/lib64/cmake/OpenEXR -DOpenImageIO_DIR=/installs/lib64/cmake/OpenImageIO -DBoost_HEADERS_LIBRARY_RELEASE=/usr/include -DBoost_INCLUDE_DIR=/usr/include -DOptiX_INCLUDE_DIRS=/installs/opitx/include -DTBB_INCLUDE_DIR=/usr/include -DBUILD_QT_APPS=NO --preset container-release
+      shell: CC=clang CXX=clang++ CMAKE_PREFIX_DIR=/installs cmake -DCMAKE_INSTALL_PREFIX:PATH=/installs/openmoonray -DOpenEXR_DIR=/installs/lib64/cmake/OpenEXR -DOpenImageIO_DIR=/installs/lib64/cmake/OpenImageIO -DBoost_HEADERS_LIBRARY_RELEASE=/usr/include -DBoost_INCLUDE_DIR=/usr/include -DOptiX_INCLUDE_DIRS=/installs/opitx/include -DTBB_INCLUDE_DIR=/usr/include -DMOONRAY_USE_CUDA=NO -DBUILD_QT_APPS=NO --preset container-release
       args:
         chdir: /openmoonray
 
